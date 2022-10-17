@@ -1,11 +1,7 @@
-import styled from "styled-components";
+import { Wrapper } from "./style";
+
 import CalendarDate from "../CalendarDate";
 import Dashboard from "../Dashboard";
-
-const Wrapper = styled.div`
-  width: 100%;
-  background: #fefefe;
-`;
 
 function Main() {
   return (

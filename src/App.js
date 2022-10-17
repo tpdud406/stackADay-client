@@ -1,22 +1,24 @@
 import { useState, useEffect } from "react";
 import { io } from "socket.io-client";
 
-import Guest from "./components/Guest";
-import Layout from "./components/Layout";
+import Welcome from "./pages/Welcome";
+import Layout from "./pages/Layout";
 
 function App() {
   const [socket, setSocket] = useState();
   useEffect(() => {
-    const instance = io(`${process.env.SOCKET_SERVER_URL}`);
-    setSocket(instance);
+    const socketIO = io.connect(`${process.env.SOCKET_SERVER_HOST}`);
+    setSocket(socketIO);
 
     return () => {
-      instance.disconnect();
+      socketIO.disconnect();
     };
   }, []);
 
   useEffect(() => {
-    if (socket == null) return;
+    if (socket == null) {
+      return;
+    }
 
     socket.once("load-notices", () => {});
 
@@ -24,7 +26,9 @@ function App() {
   }, []);
 
   useEffect(() => {
-    if (socket == null) return;
+    if (socket == null) {
+      return;
+    }
 
     const interval = setInterval(() => {
       socket.emit("save-notices");

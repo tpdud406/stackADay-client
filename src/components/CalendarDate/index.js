@@ -1,13 +1,7 @@
-import styled from "styled-components";
-
-const Wrapper = styled.div`
-  width: 100%;
-  height: 60px;
-  background: #f0ffff;
-`;
+import { Wrapper } from "./style";
 
 function CalendarDate() {
-  return <Wrapper>calendar</Wrapper>;
+  return <Wrapper>calendar!</Wrapper>;
 }
 
 export default CalendarDate;
