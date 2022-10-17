@@ -1,11 +1,14 @@
 import { useState, useEffect } from "react";
 import { io } from "socket.io-client";
+import { Route, Routes } from "react-router-dom";
 
 import Welcome from "./pages/Welcome";
 import Layout from "./pages/Layout";
+import Signup from "./pages/Signup";
 
 function App() {
   const [socket, setSocket] = useState();
+
   useEffect(() => {
     const socketIO = io.connect(`${process.env.SOCKET_SERVER_HOST}`);
     setSocket(socketIO);
@@ -41,7 +44,10 @@ function App() {
 
   return (
     <>
-      <Layout />
+      <Routes>
+        <Route path="/" element={<Layout />} />
+        <Route path="/signup" element={<Signup />} />
+      </Routes>
     </>
   );
 }
