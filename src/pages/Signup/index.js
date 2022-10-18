@@ -15,6 +15,8 @@ function Signup() {
   });
   const [selectedRole, setSelectedRole] = useState("member");
   const [groupName, setGroupName] = useState("");
+  const [message, setMessage] = useState("");
+  const [isSending, setIsSending] = useState(false);
 
   const [hover, setHover] = useState(false);
 
@@ -33,72 +35,95 @@ function Signup() {
     });
   };
 
-  const onSubmit = async () => {
-    const result = await fetch("http://localhost:8080/signup", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        nickname,
-        email,
-        password,
-        selectedRole,
-        groupName,
-      }),
-    });
+  useEffect(() => {
+    const onSubmit = async () => {
+      try {
+        const result = await fetch(
+          `${process.env.REACT_APP_SERVER_REQUEST_HOST}/signup`,
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              nickname,
+              email,
+              password,
+              selectedRole,
+              groupName,
+            }),
+          }
+        );
 
-    if (result.status === 200) {
-      setSignupValues({
-        nickname: "",
-        email: "",
-        password: "",
-        passwordConfirm: "",
-      });
-      navigate("/login");
-    }
+        const res = await res.json();
 
-    navigate("/signup");
-  };
+        if (result.status === 201) {
+          navigate("/login");
+        }
 
-  const onCheckGroupName = async () => {
-    return (
-      await fetch("http://localhost:8080/signup/check-group-name"),
-      {
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          groupName,
-        }),
+        navigate("/signup");
+        setMessage(res.message);
+      } catch (err) {
+        console.log(err);
       }
-    );
-  };
-  const onCheckEmail = async () => {
-    return (
-      await fetch("http://localhost:8080/signup/check-email"),
-      {
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email,
-        }),
+    };
+
+    const onCheckGroupName = async () => {
+      try {
+        const result = await fetch(
+          `${process.env.REACT_APP_SERVER_REQUEST_HOST}/signup/check-group-name`,
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              groupName,
+            }),
+          }
+        );
+
+        const res = await res.json();
+
+        navigate("/signup");
+
+        if (result.status === 400) {
+          setMessage(res.message);
+        }
+      } catch (err) {
+        console.log(err);
       }
-    );
-  };
+    };
 
-  useEffect(() => {
-    onSubmit();
-  });
+    const onCheckEmail = async () => {
+      try {
+        const result = await fetch(
+          `${process.env.REACT_APP_SERVER_REQUEST_HOST}signup/check-email`,
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              groupName,
+            }),
+          }
+        );
 
-  useEffect(() => {
-    onCheckEmail();
-  });
+        const res = await res.json();
 
-  useEffect(() => {
-    onCheckGroupName();
-  });
+        navigate("/signup");
+
+        if (result.status === 400) {
+          setMessage(res.message);
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    isSending && onSubmit();
+    isSending && onCheckEmail();
+    isSending && onCheckGroupName();
+  }, [isSending]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit();
+    setIsSending(true);
   };
 
   const handleGroupName = (group) => {
@@ -131,7 +156,7 @@ function Signup() {
             onChange={handleInputs}
             required
           />
-          <button onClick={onCheckEmail}>중복확인</button>
+          <button onClick={() => setIsSending(true)}>중복확인</button>
         </div>
         <input
           type="password"
@@ -182,26 +207,29 @@ function Signup() {
             admin
           </div>
         </div>
-        <button>제출</button>
+        <button onClick={() => setIsSending(true)}>제출</button>
       </form>
-      {nickname.length < 2 && "닉네임은 최소 2자 이상 입력해주세요"}
-      {(nickname || email || password || passwordConfirm) &&
-        "모든 값을 입력해주세요"}
-      {password !== passwordConfirm && "비밀번호가 일치하지 않습니다"}
-      {password.length < 8 && "숫자, 영문자 포함 8자 이상이어야 합니다."}
-      {hover && (
-        <div>
-          <p>
-            * member는 복수의 그룹에 참여할 수 있습니다.
-            <br />* admin은 하나의 그룹을 생성하고, 관리할 수 있습니다.
-          </p>
-        </div>
-      )}
+      <div>
+        {message}
+        {nickname.length < 2 && "닉네임은 최소 2자 이상 입력해주세요"}
+        {(nickname || email || password || passwordConfirm) &&
+          "모든 값을 입력해주세요"}
+        {password !== passwordConfirm && "비밀번호가 일치하지 않습니다"}
+        {password.length < 8 && "숫자, 영문자 포함 8자 이상이어야 합니다."}
+        {hover && (
+          <div>
+            <p>
+              * member는 복수의 그룹에 참여할 수 있습니다.
+              <br />* admin은 하나의 그룹을 생성하고, 관리할 수 있습니다.
+            </p>
+          </div>
+        )}
+      </div>
       {selectedRole === "admin" && (
         <GroupName
           groupName={groupName}
           handleGroupName={handleGroupName}
-          onCheck={onCheckGroupName}
+          onCheck={() => setIsSending(true)}
         />
       )}
     </div>
