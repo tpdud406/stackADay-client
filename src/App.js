@@ -1,11 +1,26 @@
 import { useState, useEffect } from "react";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { io } from "socket.io-client";
 import { Route, Routes } from "react-router-dom";
 
 import Welcome from "./pages/Welcome";
 import Layout from "./pages/Layout";
-import Signup from "./pages/Signup";
-import Login from "./pages/Welcome";
+import Login from "./pages/Login";
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Welcome />,
+  },
+  {
+    path: "/login",
+    element: <Login />,
+  },
+  {
+    path: "/member",
+    element: <Layout />,
+  },
+]);
 
 function App() {
   const [socket, setSocket] = useState();
@@ -43,15 +58,7 @@ function App() {
     };
   }, []);
 
-  return (
-    <>
-      <Routes>
-        <Route path="/" element={<Layout />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/login" element={<Login />} />
-      </Routes>
-    </>
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;
