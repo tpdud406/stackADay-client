@@ -3,8 +3,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 
 import GroupName from "../../components/GroupName";
+import { useNavigate } from "react-router-dom";
 
 function Signup() {
+  const navigate = useNavigate();
   const [signupValues, setSignupValues] = useState({
     nickname: "",
     email: "",
@@ -13,6 +15,7 @@ function Signup() {
   });
   const [selectedRole, setSelectedRole] = useState("member");
   const [groupName, setGroupName] = useState("");
+
   const [hover, setHover] = useState(false);
 
   const { nickname, email, password, passwordConfirm } = signupValues;
@@ -43,12 +46,55 @@ function Signup() {
       }),
     });
 
-    setSignupValues(result);
+    if (result.status === 200) {
+      setSignupValues({
+        nickname: "",
+        email: "",
+        password: "",
+        passwordConfirm: "",
+      });
+      navigate("/login");
+    }
+
+    navigate("/signup");
+  };
+
+  const onCheckGroupName = async () => {
+    return (
+      await fetch("http://localhost:8080/signup/check-group-name"),
+      {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          groupName,
+        }),
+      }
+    );
+  };
+  const onCheckEmail = async () => {
+    return (
+      await fetch("http://localhost:8080/signup/check-email"),
+      {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email,
+        }),
+      }
+    );
   };
 
   useEffect(() => {
     onSubmit();
-  }, []);
+  });
+
+  useEffect(() => {
+    onCheckEmail();
+  });
+
+  useEffect(() => {
+    onCheckGroupName();
+  });
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -74,6 +120,7 @@ function Signup() {
           name="nickname"
           value={nickname}
           onChange={handleInputs}
+          required
         />
         <div>
           <input
@@ -82,8 +129,9 @@ function Signup() {
             name="email"
             value={email}
             onChange={handleInputs}
+            required
           />
-          <button>중복확인</button>
+          <button onClick={onCheckEmail}>중복확인</button>
         </div>
         <input
           type="password"
@@ -91,6 +139,7 @@ function Signup() {
           name="password"
           value={password}
           onChange={handleInputs}
+          required
         />
         <p>숫자, 영문자 포함 8자 이상이어야 합니다.</p>
         <input
@@ -99,6 +148,7 @@ function Signup() {
           name="passwordConfirm"
           value={passwordConfirm}
           onChange={handleInputs}
+          required
         />
         <div>
           권한
@@ -134,6 +184,11 @@ function Signup() {
         </div>
         <button>제출</button>
       </form>
+      {nickname.length < 2 && "닉네임은 최소 2자 이상 입력해주세요"}
+      {(nickname || email || password || passwordConfirm) &&
+        "모든 값을 입력해주세요"}
+      {password !== passwordConfirm && "비밀번호가 일치하지 않습니다"}
+      {password.length < 8 && "숫자, 영문자 포함 8자 이상이어야 합니다."}
       {hover && (
         <div>
           <p>
@@ -143,7 +198,11 @@ function Signup() {
         </div>
       )}
       {selectedRole === "admin" && (
-        <GroupName groupName={groupName} handleGroupName={handleGroupName} />
+        <GroupName
+          groupName={groupName}
+          handleGroupName={handleGroupName}
+          onCheck={onCheckGroupName}
+        />
       )}
     </div>
   );

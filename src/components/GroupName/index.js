@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-function GroupName({ handleGroupName }) {
+function GroupName({ handleGroupName, onCheck }) {
   const [groupName, setGroupName] = useState("");
 
   const handleInputs = (e) => {
@@ -8,6 +8,9 @@ function GroupName({ handleGroupName }) {
     handleGroupName(groupName);
   };
 
+  const onCheckGroupName = () => {
+    onCheck(groupName);
+  };
   return (
     <div>
       <input
@@ -17,7 +20,7 @@ function GroupName({ handleGroupName }) {
         value={groupName}
         onChange={handleInputs}
       />
-      <button>중복확인</button>
+      <button onClick={onCheckGroupName}>중복확인</button>
     </div>
   );
 }

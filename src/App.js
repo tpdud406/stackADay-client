@@ -5,6 +5,7 @@ import { Route, Routes } from "react-router-dom";
 import Welcome from "./pages/Welcome";
 import Layout from "./pages/Layout";
 import Signup from "./pages/Signup";
+import Login from "./pages/Welcome";
 
 function App() {
   const [socket, setSocket] = useState();
@@ -47,6 +48,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Layout />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/login" element={<Login />} />
       </Routes>
     </>
   );
