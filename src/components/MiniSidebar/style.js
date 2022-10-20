@@ -15,6 +15,7 @@ export const Wrapper = styled.div`
     margin-top: 10px;
     height: 40px;
     color: #ffffff;
+    cursor: pointer;
   }
 
   .logout {

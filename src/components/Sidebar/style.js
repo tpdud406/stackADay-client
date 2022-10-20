@@ -11,6 +11,7 @@ export const Wrapper = styled.div`
     margin-top: 10px;
     margin-right: 15px;
     height: 50px;
+    cursor: pointer;
     color: #ffffff;
   }
   .content1 {
@@ -20,6 +21,7 @@ export const Wrapper = styled.div`
     padding: 10px;
     font-family: "GangwonEdu_OTFBoldA";
     font-size: 25px;
+    cursor: pointer;
     color: #ffffff;
   }
   .content2 {
@@ -27,6 +29,7 @@ export const Wrapper = styled.div`
     padding: 10px;
     font-family: "GangwonEdu_OTFBoldA";
     font-size: 25px;
+    cursor: pointer;
     color: #ffffff;
   }
 `;
