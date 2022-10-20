@@ -7,10 +7,11 @@ import Main from "../../components/Main";
 import ShowModal from "../../components/ShowModal";
 import JoinGroupModal from "../../components/JoinGroupModal";
 import MessageModal from "../../components/MessageModal";
+import NoticeModal from "../../components/NoticeModal";
 
 function Layout() {
   const [isOpen, setIsOpen] = useState(false);
-  const [role, setRole] = useState("MEMBER");
+  const [role, setRole] = useState("ADMIN");
   const { isModalOpen, modalType, message } = useSelector(
     (state) => state.modal
   );
@@ -21,6 +22,7 @@ function Layout() {
         <ShowModal>
           {modalType === "message" && <MessageModal message={message} />}
           {modalType === "joinGroup" && <JoinGroupModal />}
+          {modalType === "createNotice" && <NoticeModal />}
         </ShowModal>
       )}
       <Wrapper>
