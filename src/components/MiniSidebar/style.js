@@ -7,16 +7,20 @@ export const Wrapper = styled.div`
   padding: 10px;
   height: 100vh;
   width: 50px;
-  background: #A3BDED;
+  background: #a3bded;
   text-align: center;
+  box-sizing: border-box;
+
   .bars {
     margin-top: 10px;
     height: 40px;
-    color: #FFFFFF;
+    color: #ffffff;
   }
+
   .logout {
     margin-bottom: 10px;
     height: 30px;
-    color: #FFFFFF;
+    cursor: pointer;
+    color: #ffffff;
   }
 `;
