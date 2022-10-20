@@ -13,7 +13,7 @@ function Dashboard() {
   useEffect(() => {
     async function getUserCards() {
       const res = await fetch(
-        `${process.env.REACT_APP_SOCKET_SERVER_URL}/users/${user_id}/cards?date=${currentDate}`
+        `${process.env.REACT_APP_SERVER_REQUEST_HOST}/users/${user_id}/cards?date=${currentDate}`
       );
 
       if (res.status === 200) {

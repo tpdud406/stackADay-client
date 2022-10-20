@@ -37,7 +37,7 @@ function Sidebar({ setIsOpen, role }) {
               dispatch(setModalOpen({ type: "createNotice", message: "" }))
             }
           >
-          그룹 공지 보내기
+            그룹 공지 보내기
           </div>
         </div>
       )}

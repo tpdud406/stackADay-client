@@ -1,5 +1,6 @@
 import { Wrapper } from "./style";
-import { useState } from "react";
+import { io } from "socket.io-client";
+import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import Sidebar from "../../components/Sidebar";
 import MiniSidebar from "../../components/MiniSidebar";
@@ -16,13 +17,24 @@ function Layout() {
     (state) => state.modal
   );
 
+  const [socket, setSocket] = useState();
+
+  useEffect(() => {
+    const socketIO = io.connect(process.env.REACT_APP_SERVER_REQUEST_HOST);
+    setSocket(socketIO);
+
+    return () => {
+      socketIO.disconnect();
+    };
+  }, []);
+
   return (
     <>
       {isModalOpen && (
         <ShowModal>
-          {modalType === "message" && <MessageModal message={message} />}
           {modalType === "joinGroup" && <JoinGroupModal />}
-          {modalType === "createNotice" && <NoticeModal />}
+          {modalType === "createNotice" && <NoticeModal socket={socket} />}
+          {modalType === "message" && <MessageModal message={message} />}
         </ShowModal>
       )}
       <Wrapper>
