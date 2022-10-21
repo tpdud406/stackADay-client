@@ -31,7 +31,14 @@ function Sidebar({ setIsOpen, role }) {
       {role === "ADMIN" && (
         <div>
           <div className="content1">그룹 관리하기</div>
-          <div className="content2">그룹 공지 보내기</div>
+          <div
+            className="content2"
+            onClick={() =>
+              dispatch(setModalOpen({ type: "createNotice", message: "" }))
+            }
+          >
+            그룹 공지 보내기
+          </div>
         </div>
       )}
     </Wrapper>
