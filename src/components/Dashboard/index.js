@@ -2,10 +2,12 @@ import { Wrapper } from "./style";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCirclePlus } from "@fortawesome/free-solid-svg-icons";
 import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
+import { setModalOpen } from "../../store/slices/modalSlice";
 
 function Dashboard() {
+  const dispatch = useDispatch();
   const [cards, setCards] = useState(null);
   const { user_id } = useParams();
   const { currentDate } = useSelector((state) => state.calendar);
@@ -25,16 +27,14 @@ function Dashboard() {
     user_id && getUserCards();
   });
 
-  function addNewCard() {
-    console.log("add new card..");
-  }
-
   return (
     <Wrapper>
       <FontAwesomeIcon
         icon={faCirclePlus}
         className="plus-icon"
-        onClick={addNewCard}
+        onClick={() =>
+          dispatch(setModalOpen({ type: "createCard", message: "" }))
+        }
       />
     </Wrapper>
   );

@@ -41,8 +41,10 @@ function NoticeModal({ socket }) {
       {showConfirmMessage && (
         <ConfirmMessageModal
           socket={socket}
-          notice={notice}
-          message={"공지를 생성하시겠습니까?"}
+          socketType="sendNotice"
+          socketValue={notice}
+          confirmMessage="공지를 생성하시겠습니까?"
+          endMessage="공지가 생성되었습니다."
         />
       )}
       <Wrapper>
