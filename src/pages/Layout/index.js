@@ -22,7 +22,6 @@ function Layout() {
     (state) => state.modal
   );
   const { user_id } = useParams();
-  console.log("user_id: ", user_id);
 
   useEffect(() => {
     async function getUserInfo() {
@@ -32,10 +31,7 @@ function Layout() {
       }
 
       const res = await fetch(
-        `${process.env.REACT_APP_SERVER_REQUEST_HOST}/users/${user_id}`,
-        {
-          method: "GET",
-        }
+        `${process.env.REACT_APP_SERVER_REQUEST_HOST}/users/${user_id}`
       );
       if (res.status === 200) {
         const { userInfo } = await res.json();

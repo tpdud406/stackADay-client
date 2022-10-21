@@ -39,6 +39,15 @@ function Sidebar({ setIsOpen, role }) {
           >
             그룹 공지 보내기
           </div>
+          <div
+            className="content1"
+            onClick={() =>
+              dispatch(setModalOpen({ type: "manageGroup", message: "" }))
+            }
+          >
+            그룹 관리하기
+          </div>
+          <div className="content2">그룹 공지 보내기</div>
         </div>
       )}
     </Wrapper>

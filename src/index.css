@@ -21,3 +21,16 @@ code {
 input::placeholder {
   font-family: "GangwonEdu_OTFBoldA";
 }
+
+button {
+  font-family: "GangwonEdu_OTFBoldA";
+  border: none;
+}
+
+ul,
+li,
+ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
