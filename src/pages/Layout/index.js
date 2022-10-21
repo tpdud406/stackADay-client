@@ -7,11 +7,13 @@ import { useParams } from "react-router-dom";
 import Sidebar from "../../components/Sidebar";
 import MiniSidebar from "../../components/MiniSidebar";
 import Main from "../../components/Main";
+
 import ShowModal from "../../components/ShowModal";
 import JoinGroupModal from "../../components/JoinGroupModal";
 import ManageGroupModal from "../../components/ManageGroupModal";
 import MessageModal from "../../components/MessageModal";
 import NoticeModal from "../../components/NoticeModal";
+import CreateCardModal from "../../components/CreateCardModal";
 
 function Layout() {
   const [isOpen, setIsOpen] = useState(false);
@@ -64,6 +66,7 @@ function Layout() {
           {modalType === "createNotice" && <NoticeModal socket={socket} />}
           {modalType === "message" && <MessageModal message={message} />}
           {modalType === "manageGroup" && <ManageGroupModal />}
+          {modalType === "createCard" && <CreateCardModal socket={socket} />}
         </ShowModal>
       )}
       <Wrapper>
