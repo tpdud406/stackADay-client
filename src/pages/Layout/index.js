@@ -1,4 +1,4 @@
-import { Wrapper } from "./style";
+import { Wrapper, Content } from "./style";
 import { io } from "socket.io-client";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
@@ -6,7 +6,8 @@ import { useParams } from "react-router-dom";
 
 import Sidebar from "../../components/Sidebar";
 import MiniSidebar from "../../components/MiniSidebar";
-import Main from "../../components/Main";
+import CalendarDate from "../../components/CalendarDate";
+import Dashboard from "../../components/Dashboard";
 
 import ShowModal from "../../components/ShowModal";
 import JoinGroupModal from "../../components/JoinGroupModal";
@@ -16,8 +17,8 @@ import NoticeModal from "../../components/NoticeModal";
 import CreateCardModal from "../../components/CreateCardModal";
 
 function Layout() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [role, setRole] = useState("ADMIN");
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [role, setRole] = useState("MEMBER");
   const { isModalOpen, modalType, message } = useSelector(
     (state) => state.modal
   );
@@ -66,12 +67,15 @@ function Layout() {
         </ShowModal>
       )}
       <Wrapper>
-        {isOpen ? (
-          <Sidebar setIsOpen={setIsOpen} role={role} />
+        {isSidebarOpen ? (
+          <Sidebar setIsSidebarOpen={setIsSidebarOpen} role={role} />
         ) : (
-          <MiniSidebar setIsOpen={setIsOpen} role={role} />
+          <MiniSidebar setIsSidebarOpen={setIsSidebarOpen} role={role} />
         )}
-        <Main />
+        <Content>
+          <CalendarDate />
+          <Dashboard socket={socket} />
+        </Content>
       </Wrapper>
     </>
   );
