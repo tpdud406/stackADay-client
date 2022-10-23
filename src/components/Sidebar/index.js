@@ -1,15 +1,40 @@
+import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 
-import { Wrapper } from "./style";
+import { Wrapper, NoticeWrapper } from "./style";
 import { setModalOpen } from "../../store/slices/modalSlice";
 
+<<<<<<< HEAD
 function Sidebar({ setIsSidebarOpen, role }) {
+=======
+function Sidebar({ setIsSidebarOpen, role, socket, groups }) {
+>>>>>>> 2382481 (feat: 공지읽기)
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [noticeList, setNoticeList] = useState([
+    {
+      name: "hello",
+      colorCode: "#ffffff",
+      message: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    },
+  ]);
+
+  useEffect(() => {
+    groups?.map((group) => {
+      socket?.on(`group.groupName`, (data) => {
+        const { name, colorCode, newNotice } = data;
+
+        setNoticeList((notices) => [
+          ...notices,
+          { name, colorCode, newNotice },
+        ]);
+      });
+    });
+  }, [socket, noticeList]);
 
   return (
     <Wrapper>
@@ -46,14 +71,6 @@ function Sidebar({ setIsSidebarOpen, role }) {
       {role === "ADMIN" && (
         <div>
           <div
-            className="content2"
-            onClick={() =>
-              dispatch(setModalOpen({ type: "createNotice", message: "" }))
-            }
-          >
-            그룹 공지 보내기
-          </div>
-          <div
             className="content1"
             onClick={() =>
               dispatch(setModalOpen({ type: "manageGroup", message: "" }))
@@ -61,8 +78,24 @@ function Sidebar({ setIsSidebarOpen, role }) {
           >
             그룹 관리하기
           </div>
+          <div
+            className="content2"
+            onClick={() =>
+              dispatch(setModalOpen({ type: "createNotice", message: "" }))
+            }
+          >
+            그룹 공지 보내기
+          </div>
         </div>
       )}
+      <NoticeWrapper>
+        {noticeList.map((notice) => (
+          <li style={{ background: notice.colorCode }}>
+            <strong>{notice.name}</strong>
+            <p>{notice.message}</p>
+          </li>
+        ))}
+      </NoticeWrapper>
     </Wrapper>
   );
 }
