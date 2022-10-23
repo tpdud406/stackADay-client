@@ -5,8 +5,22 @@ import { faBars, faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 import { Wrapper } from "./style";
 import MessageModal from "../MessageModal";
 
-function MiniSidebar({ setIsOpen, role }) {
+function MiniSidebar({ setIsSidebarOpen, role }) {
+  const navigate = useNavigate();
   const [showMessage, setShowMessage] = useState(false);
+
+  async function logout() {
+    const res = await fetch(
+      `${process.env.REACT_APP_SERVER_REQUEST_HOST}/logout`,
+      {
+        method: "POST",
+      }
+    );
+
+    if (res.status === 200) {
+      navigate(`/welcome`);
+    }
+  }
 
   return (
     <>
@@ -20,13 +34,13 @@ function MiniSidebar({ setIsOpen, role }) {
         <FontAwesomeIcon
           icon={faBars}
           className="bars"
-          onClick={() => setIsOpen(true)}
+          onClick={() => setIsSidebarOpen(true)}
         />
         {role !== "GUEST" && (
           <FontAwesomeIcon
             icon={faRightFromBracket}
             className="logout"
-            onClick={() => setShowMessage(true)}
+            onClick={logout}
           />
         )}
       </Wrapper>

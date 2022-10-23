@@ -18,11 +18,6 @@ function JoinGroupModal() {
     setGroupName(e.target.value);
   };
 
-  const applyGroup = (e) => {
-    e.preventDefault();
-    setGroupId(e.currentTarget.parentElement.id);
-  };
-
   useEffect(() => {
     async function findGroupByName() {
       const res = await fetch(
@@ -94,14 +89,14 @@ function JoinGroupModal() {
             '{groupName}'에 대한 검색 결과가 없습니다.
           </div>
         ) : (
-          result.map((item) => (
-            <div className="list-item" key={item.group_id} id={item.group_id}>
+          result?.map((item) => (
+            <div className="list-item" key={item.group_id}>
               <div className="item-value">{item.name}</div>
               <input
                 type="submit"
                 value="신청"
                 className="item-button"
-                onClick={applyGroup}
+                onClick={() => setGroupId(item.group_id)}
               />
             </div>
           ))

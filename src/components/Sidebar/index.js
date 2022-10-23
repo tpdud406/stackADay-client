@@ -7,7 +7,7 @@ import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { Wrapper } from "./style";
 import { setModalOpen } from "../../store/slices/modalSlice";
 
-function Sidebar({ setIsOpen, role }) {
+function Sidebar({ setIsSidebarOpen, role }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -16,7 +16,7 @@ function Sidebar({ setIsOpen, role }) {
       <FontAwesomeIcon
         icon={faArrowLeft}
         className="arrow-left"
-        onClick={() => setIsOpen(false)}
+        onClick={() => setIsSidebarOpen(false)}
       />
       {role === "GUEST" && (
         <div className="content1" onClick={() => navigate("/signup")}>

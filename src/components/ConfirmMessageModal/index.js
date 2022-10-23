@@ -2,14 +2,20 @@ import { Wrapper } from "./style";
 import { useDispatch } from "react-redux";
 import { setModalOpen, setModalClose } from "../../store/slices/modalSlice";
 
-function ConfirmMessageModal({ socket, socketType, socketValue, confirmMessage, endMessage }) {
+function ConfirmMessageModal({
+  socket,
+  socketType,
+  socketValue,
+  confirmMessage,
+  endMessage,
+}) {
   const dispatch = useDispatch();
 
   const submitNotice = (e) => {
     e.preventDefault();
 
-    socket?.emit(socketType, { socketValue });
     dispatch(setModalOpen({ type: "message", message: endMessage }));
+    socket?.emit(socketType, { socketValue });
   };
 
   return (

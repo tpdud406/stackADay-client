@@ -1,17 +1,23 @@
 import { Wrapper, Content } from "./style";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 import { setModalClose } from "../../store/slices/modalSlice";
 import { validateCardForm } from "../../utils/validateCardForm";
 import ConfirmMessageModal from "../ConfirmMessageModal";
 
 function CreateCardModal({ socket }) {
   const dispatch = useDispatch();
+  const { user_id } = useParams();
   const themeColors = ["#CDDAFD", "#BEE1E6", "#E2ECE9", "#FDE2E4", "#FFF1E6"];
   const [todo, setTodo] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
   const [showConfirmMessage, setShowConfirmMessage] = useState(false);
+  const { currentDate } = useSelector((state) => state.calendar);
+
   const [cardInput, setCardInput] = useState({
+    currentDate,
+    createdBy: user_id,
     category: "",
     startDate: "",
     endDate: "",
@@ -26,6 +32,13 @@ function CreateCardModal({ socket }) {
   const handleChange = (e) => {
     const { name, value } = e.target;
 
+    if (name === "startDate" || "endDate") {
+      return setCardInput({
+        ...cardInput,
+        [name]: value.toString("yyyy-MM-dd"),
+      });
+    }
+
     setCardInput({
       ...cardInput,
       [name]: value,
@@ -34,12 +47,13 @@ function CreateCardModal({ socket }) {
 
   const addTodo = (e) => {
     const todoValue = e.target.previousSibling.value;
+    const newTodo = [...todo, todoValue];
     e.target.previousSibling.value = "";
 
-    setTodo([...todo, todoValue]);
+    setTodo(newTodo);
     setCardInput({
       ...cardInput,
-      "todos": todo,
+      todos: newTodo,
     });
   };
 
@@ -58,14 +72,14 @@ function CreateCardModal({ socket }) {
   return (
     <>
       {showConfirmMessage && (
-          <ConfirmMessageModal
-            socket={socket}
-            socketType="createCard"
-            socketValue={cardInput}
-            confirmMessage="카드를 생성하시겠습니까?"
-            endMessage="카드가 생성되었습니다."
-          />
-        )}
+        <ConfirmMessageModal
+          socket={socket}
+          socketType="createCard"
+          socketValue={cardInput}
+          confirmMessage="카드를 생성하시겠습니까?"
+          endMessage="카드가 생성되었습니다."
+        />
+      )}
       <Wrapper>
         <div className="title">카드 생성하기</div>
         <div className="layout-top">
@@ -113,9 +127,11 @@ function CreateCardModal({ socket }) {
           <div>
             <div className="todo">
               {todo.map((item, idx) => (
-                <div className="layout-todo-show">
+                <div className="layout-todo-show" key={item + idx}>
                   <div className="todo-item">{idx + 1}.</div>
-                  <div className="todo-item" key={item + idx}>{item}</div>
+                  <div className="todo-item" key={item + idx}>
+                    {item}
+                  </div>
                 </div>
               ))}
             </div>
@@ -159,7 +175,7 @@ function CreateCardModal({ socket }) {
             type="submit"
             value="확인"
             className="button"
-            onClick={validationCheck} // 제출 함수 만들기 (confirmModal 후)
+            onClick={validationCheck}
           />
         </div>
       </Wrapper>
