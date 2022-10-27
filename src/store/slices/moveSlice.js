@@ -27,6 +27,7 @@ function itemWillFit(item, point, cells) {
   for (let y = 0; y < item.height; y++) {
     for (let x = 0; x < item.width; x++) {
       const cell = cells[y + point.y][x + point.x];
+
       if (cell !== "none" && cell !== item.id) {
         return false;
       }
@@ -46,7 +47,7 @@ const initialState = {
     //   width: 0
     // }
   ],
-  cells: range(20).map((y) => range(20).map((x) => "none")),
+  cells: range(100).map((y) => range(100).map((x) => "none")),
   dragging: {
     snapshotId: "",
     initialPoint: { x: 1, y: 1 },
