@@ -69,10 +69,10 @@ export const inputAnimation = {
     opacity: 0,
   },
   show: {
-    width: "140px",
+    width: "100%",
     opacity: 1,
     transition: {
-      duration: 0.2,
+      duration: 0.01,
     },
   },
 };
@@ -95,7 +95,7 @@ export const showAnimation = {
 };
 
 export const NoticeWrapper = styled.ul`
-  width: 210px;
+  width: 100%;
   height: 400px;
   padding: 10px;
   margin-top: 20px;
@@ -103,6 +103,7 @@ export const NoticeWrapper = styled.ul`
   border-radius: 10px;
   overflow: scroll;
   box-shadow: 0 0 5px #333;
+  box-sizing: border-box;
 `;
 
 export const Notice = styled.div`

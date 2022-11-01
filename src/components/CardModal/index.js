@@ -15,20 +15,10 @@ function CardModal({ socket }) {
   const [errorMessage, setErrorMessage] = useState("");
   const [socketType, setSocketType] = useState(null);
   const [showConfirmMessage, setShowConfirmMessage] = useState(false);
-  const themeColors = ["#CDDAFD", "#BEE1E6", "#E2ECE9", "#FDE2E4", "#FFF1E6"];
+  const themeColors = ["#62FCAF", "#9300FE", "#11ffee", "#034EFD", "#fcf434"];
 
-  let cardX;
-  let cardY;
-
-  if (cardsLength % 3 === 0) {
-    cardX = 1;
-  } else if (cardsLength % 3 === 1) {
-    cardX = 7;
-  } else {
-    cardX = 13;
-  }
-
-  cardY = parseInt(cardsLength / 3) * 4 + 1;
+  const cardX = (cardsLength % 3) * 6 + 1;
+  const cardY = parseInt(cardsLength / 3) * 4 + 1;
 
   const [cardInput, setCardInput] = useState({
     cardId: message ? message.cardId : "",
@@ -93,11 +83,13 @@ function CardModal({ socket }) {
   return (
     <>
       <Wrapper>
-        <div className="title">
-          {message ? "카드 수정하기" : "카드 생성하기"}
-        </div>
-        <div className="layout-top">
-          <div className="category-name">카테고리 *</div>
+        <h3 className="title">
+          {cardInput.cardId ? "카드 수정하기" : "카드 생성하기"}
+        </h3>
+        <div className="layout">
+          <div className="category-name">
+            카테고리 <em>*</em>
+          </div>
           <input
             name="category"
             className="category-input"
@@ -107,8 +99,10 @@ function CardModal({ socket }) {
         </div>
         {!message && (
           <>
-            <div className="layout-top">
-              <div className="category-name">기간 *</div>
+            <div className="layout">
+              <div className="category-name">
+                기간 <em>*</em>
+              </div>
               <div className="category-date">
                 <input
                   type="date"
@@ -125,24 +119,28 @@ function CardModal({ socket }) {
                 />
               </div>
             </div>
-            <div className="layout-top">
-              <div className="category-name">테마 *</div>
-              {themeColors.map((color) => (
-                <div className="category-color" key={color}>
-                  <input
-                    type="radio"
-                    name="colorCode"
-                    value={color}
-                    checked={cardInput.colorCode === color}
-                    onChange={handleChange}
-                  />
-                  <Content color={color}></Content>
-                </div>
-              ))}
+            <div className="layout">
+              <div className="category-name">
+                테마 <em>*</em>
+              </div>
+              <div className="category-colors">
+                {themeColors.map((color) => (
+                  <div className="category-color" key={color}>
+                    <input
+                      type="radio"
+                      name="colorCode"
+                      value={color}
+                      checked={cardInput.colorCode === color}
+                      onChange={handleChange}
+                    />
+                    <Content color={color}></Content>
+                  </div>
+                ))}
+              </div>
             </div>
           </>
         )}
-        <div className="layout-bottom">
+        <div className="layout">
           <div className="category-name">TODO</div>
           <div>
             <div className="todo">
@@ -166,7 +164,7 @@ function CardModal({ socket }) {
             </div>
           </div>
         </div>
-        <div className="layout-bottom">
+        <div className="layout">
           <div className="category-name">IMG</div>
           <input
             name="imgUrl"
@@ -176,7 +174,7 @@ function CardModal({ socket }) {
             onChange={handleChange}
           />
         </div>
-        <div className="layout-bottom">
+        <div className="layout">
           <div className="category-name">TEXT</div>
           <textarea
             name="description"
@@ -210,7 +208,7 @@ function CardModal({ socket }) {
         </div>
       </Wrapper>
       {showConfirmMessage &&
-        (message ? (
+        (cardInput.cardId ? (
           <ConfirmMessageModal
             socket={socket}
             socketType={socketType}

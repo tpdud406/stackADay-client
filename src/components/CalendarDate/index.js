@@ -16,19 +16,17 @@ function CalendarDate() {
         className="arrow"
         onClick={() => dispatch(showPrevDay())}
       />
-      <div className="font">{`${year}-${month}-${date}`}</div>
-      {(new Date(currentDate).toLocaleDateString() === new
-      Date().toLocaleDateString()) ?
-      <TfiAngleDoubleRight
-        size={35}
-        className="disabled-arrow"
-      />
-      :
-      <TfiAngleDoubleRight
-        size={35}
-        className="arrow"
-        onClick={() => dispatch(showNextDay())}
-      />}
+      <div className="font">{`${year}년 ${month}월 ${date}일`}</div>
+      {new Date(currentDate).toLocaleDateString() ===
+      new Date().toLocaleDateString() ? (
+        <TfiAngleDoubleRight size={35} className="disabled-arrow" />
+      ) : (
+        <TfiAngleDoubleRight
+          size={35}
+          className="arrow"
+          onClick={() => dispatch(showNextDay())}
+        />
+      )}
     </Wrapper>
   );
 }

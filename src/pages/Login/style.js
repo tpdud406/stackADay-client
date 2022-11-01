@@ -7,7 +7,7 @@ export const Wrapper = styled.div`
   & > header {
     font-size: 20px;
     padding: 20px;
-    color: #a3bded;
+    color: rgb(0, 7, 61);
   }
 
   & > header > svg {
@@ -37,7 +37,7 @@ export const LoginForm = styled.form`
     margin: 0 auto 20px;
     padding-left: 10px;
     border-radius: 10px;
-    border: 3px solid #a3bded;
+    border: 1px solid rgb(0, 7, 61);
   }
 
   & .validation-message {
@@ -52,7 +52,7 @@ export const LoginForm = styled.form`
     width: 80px;
     text-align: center;
     margin: 10px auto 0;
-    background: #a3bded;
+    background: rgb(0, 7, 61);
     padding: 10px;
     border-radius: 10px;
     color: #ffffff;
@@ -67,8 +67,8 @@ export const LoginForm = styled.form`
   }
 
   & .login-button:hover {
-    border: #a3bded;
-    background: #a3bded;
+    border: rgb(0, 7, 61);
+    background: rgb(0, 7, 61);
     color: #ffffff;
     font-weight: bold;
   }
@@ -99,5 +99,4 @@ export const UserTypeWrapper = styled.div`
 
 export const User = styled.div`
   width: 300px;
-  background: yellowgreen;
 `;

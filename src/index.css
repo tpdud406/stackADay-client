@@ -41,6 +41,10 @@ ol {
   padding: 0;
 }
 
+input[type="radio"] {
+  margin: 0;
+}
+
 .backdrop {
   position: fixed;
   top: 0;

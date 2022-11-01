@@ -37,17 +37,28 @@ function Sidebar({ role, username, socket, groupList }) {
         }
       );
       const result = await res.json();
-      const { groupName, colorCode, notice } = result;
-      const notices = getNoticeInfo(groupName, colorCode, notice);
 
-      setNoticeList(notices);
+      const newNoticeList = [];
+      result.map((item) => {
+        for (const notice of item.notices) {
+          newNoticeList.push({
+            groupName: item.name,
+            colorCode: item.colorCode,
+            startDate: notice.period.startDate,
+            endDate: notice.period.endDate,
+            message: notice.message,
+          });
+        }
+      });
+
+      setNoticeList([...newNoticeList]);
     }
 
     getGroupNotice();
-  }, [isModalOpen]);
+  }, [isModalOpen, isOpen]);
 
   useEffect(() => {
-    groupList?.forEach((group) => {
+    groupList?.map((group) => {
       socket?.on(group, (data) => {
         const { groupName, colorCode, notice } = data;
         const newNotice = getNoticeInfo(groupName, colorCode, notice);
@@ -120,6 +131,7 @@ function Sidebar({ role, username, socket, groupList }) {
                   } else if (option.type === "signup") {
                     navigate("/signup");
                   } else if (option.type === "logout") {
+                    // dispatch(setModalOpen({ type: option.type, message: "" }));
                     logout();
                   } else {
                     dispatch(setModalOpen({ type: option.type, message: "" }));

@@ -7,7 +7,7 @@ export const Wrapper = styled.div`
   & > header {
     font-size: 20px;
     padding: 20px;
-    color: #a3bded;
+    color: rgb(0, 7, 61);
   }
 
   & > header > svg {
@@ -21,7 +21,7 @@ export const Wrapper = styled.div`
   }
 
   & button:hover {
-    background: #a3bded;
+    background: rgb(0, 7, 61);
     color: #ffffff;
   }
 
@@ -32,7 +32,7 @@ export const Wrapper = styled.div`
     margin: 0 auto 20px;
     padding-left: 10px;
     border-radius: 10px;
-    border: 3px solid #a3bded;
+    border: 1px solid rgb(0, 7, 61);
     box-sizing: border-box;
   }
 
@@ -93,7 +93,7 @@ export const SignupForm = styled.form`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  color: #a3bded;
+  color: rgb(0, 7, 61);
   text-align: center;
 
   & h1 {
@@ -174,11 +174,10 @@ export const SignupForm = styled.form`
     background: #efefef;
     color: #000000;
     cursor: pointer;
-  }
 
   .submit-btn:hover {
-    border: #a3bded;
-    background: #a3bded;
+    border: rgb(0, 7, 61);
+    background: rgb(0, 7, 61);
     color: #ffffff;
     font-weight: bold;
   }
