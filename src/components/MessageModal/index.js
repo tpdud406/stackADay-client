@@ -1,30 +1,28 @@
-import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
+
 import { motion } from "framer-motion";
 
-import { modal, Wrapper } from "./style";
 import { setModalClose } from "../../store/slices/modalSlice";
 
-function MessageModal({ message, type }) {
+import { modal, Wrapper } from "./style";
+
+function MessageModal({ socket }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  async function logout() {
-    const res = await fetch(
-      `${process.env.REACT_APP_SERVER_REQUEST_HOST}/logout`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + localStorage.jwt,
-        },
-      }
-    );
+  const { message, messageType } = useSelector((state) => state.modal);
 
-    if (res.status === 200) {
-      navigate("/");
-    }
-  }
+  const logout = () => {
+    dispatch(setModalClose());
+    navigate("/");
+  };
+
+  const home = async () => {
+    socket.emit("resetGuestCards", { socketValue: "guest" });
+    dispatch(setModalClose());
+    navigate("/");
+  };
 
   return (
     <motion.div
@@ -36,32 +34,43 @@ function MessageModal({ message, type }) {
       <Wrapper>
         <div className="message">{message}</div>
 
-        {type === "logout" && (
-          <input
-            type="submit"
-            value="확인"
-            className="close-button"
-            onClick={logout}
-          />
-        )}
+        <div className="layout">
+          {messageType === "logout" && (
+            <input
+              type="submit"
+              value="확인"
+              className="close-button"
+              onClick={logout}
+            />
+          )}
 
-        {type === "signup" && (
-          <input
-            type="submit"
-            value="확인"
-            className="close-button"
-            onClick={() => navigate("/login")}
-          />
-        )}
+          {messageType === "signup" && (
+            <input
+              type="submit"
+              value="확인"
+              className="close-button"
+              onClick={() => navigate("/login")}
+            />
+          )}
 
-        {type !== "signup" && type !== "logout" && (
-          <input
-            type="submit"
-            value="닫기"
-            className="close-button"
-            onClick={() => dispatch(setModalClose())}
-          />
-        )}
+          {messageType !== "signup" && messageType !== "logout" && (
+            <input
+              type="submit"
+              value={messageType === "home" ? "취소" : "닫기"}
+              className="close-button"
+              onClick={() => dispatch(setModalClose())}
+            />
+          )}
+
+          {messageType === "home" && (
+            <input
+              type="submit"
+              value="확인"
+              className="close-button"
+              onClick={home}
+            />
+          )}
+        </div>
       </Wrapper>
     </motion.div>
   );
