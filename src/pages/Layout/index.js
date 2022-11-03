@@ -2,56 +2,52 @@ import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
-import { AnimatePresence } from "framer-motion";
 import { io } from "socket.io-client";
+import { AnimatePresence } from "framer-motion";
 
 import Sidebar from "../../components/Sidebar";
-import CalendarDate from "../../components/CalendarDate";
 import Dashboard from "../../components/Dashboard";
+import CalendarDate from "../../components/CalendarDate";
+
 import ShowModal from "../../components/ShowModal";
+import CardModal from "../../components/CardModal";
+import NoticeModal from "../../components/NoticeModal";
+import MessageModal from "../../components/MessageModal";
 import JoinGroupModal from "../../components/JoinGroupModal";
 import ManageGroupModal from "../../components/ManageGroupModal";
-import MessageModal from "../../components/MessageModal";
-import NoticeModal from "../../components/NoticeModal";
-import CardModal from "../../components/CardModal";
 import MyGroupListModal from "../../components/MyGroupListModal";
+
+import { fetchData } from "../../utils/fetchData";
 
 import { Wrapper, Content } from "./style";
 
 function Layout() {
   const { user_id } = useParams();
-
-  const [socket, setSocket] = useState(null);
-  const [role, setRole] = useState(null);
-  const [username, setUsername] = useState(null);
-  const [groupList, setGroupList] = useState([]);
   const { isModalOpen, modalType } = useSelector((state) => state.modal);
 
+  const [role, setRole] = useState(null);
+  const [socket, setSocket] = useState(null);
+  const [username, setUsername] = useState(null);
+  const [groupList, setGroupList] = useState([]);
+
   useEffect(() => {
-    async function getUserInfo() {
-      if (user_id === "guest") {
-        setRole("GUEST");
-        return;
+    const getUserInfo = async () => {
+      if (!user_id) {
+        return setRole("GUEST");
       }
 
-      const res = await fetch(
-        `${process.env.REACT_APP_SERVER_REQUEST_HOST}/users/${user_id}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + localStorage.jwt,
-          },
-        }
-      );
+      const res = await fetchData(`/users/${user_id}`, "GET");
 
-      if (res.status === 200) {
-        const userInfo = await res.json();
-
-        setRole(userInfo.role);
-        setUsername(userInfo.nickname);
-        setGroupList(userInfo.groups?.map((group) => group.groupName));
+      if (res.status === 403) {
+        const { message } = await res.json();
+        return console.error(message);
       }
+
+      const userInfo = await res.json();
+
+      setRole(userInfo.role);
+      setUsername(userInfo.nickname);
+      setGroupList(userInfo.groups?.map((group) => group.groupName));
     }
 
     getUserInfo();
@@ -91,7 +87,7 @@ function Layout() {
                 groupList={groupList}
               />
             )}
-            {modalType === "message" && <MessageModal />}
+            {modalType === "message" && <MessageModal socket={socket} />}
             {modalType === "manageGroup" && <ManageGroupModal />}
             {modalType === "handleCard" && <CardModal socket={socket} />}
             {modalType === "myGroupList" && <MyGroupListModal />}
