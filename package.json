@@ -17,6 +17,7 @@
     "socket.io-client": "^4.5.3",
     "styled-components": "^5.3.6"
   },
+  "homepage": "https://benevolent-gelato-cb216f.netlify.app",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
