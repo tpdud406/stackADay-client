@@ -21,18 +21,17 @@ function ConfirmMessageModal({
 
   const handleSubmit = async () => {
     if (deleteGroupId) {
-      const res = await fetchData(
-        `/users/${user_id}/groups/${deleteGroupId}`,
-        "DELETE"
-      );
+      try {
+        await fetchData(`/users/${user_id}/groups/${deleteGroupId}`, "DELETE");
 
-      if (res.status === 400) {
-        // const { message } = await res.json();
-        const { message } = res.data;
-        return dispatch(setModalOpen({ type: "message", message }));
+        return dispatch(setModalOpen({ type: "message", message: endMessage }));
+      } catch (err) {
+        if (err.response.status === 400) {
+          const { message } = err.response.data;
+
+          return dispatch(setModalOpen({ type: "message", message }));
+        }
       }
-
-      return dispatch(setModalOpen({ type: "message", message: endMessage }));
     }
 
     dispatch(setModalOpen({ type: "message", message: endMessage }));

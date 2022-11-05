@@ -23,37 +23,44 @@ function JoinGroupModal() {
   };
 
   const findGroupByName = async () => {
-    const res = await fetchData(`/groups?groupName=${groupName}`, "GET");
+    try {
+      const res = await fetchData(`/groups?groupName=${groupName}`, "GET");
 
-    setIsLoading(true);
-    setResultMessage("불러 오는 중입니다...");
+      setIsLoading(true);
+      setResultMessage("불러 오는 중입니다...");
 
-    // const data = await res.json();
-    const data = res.data;
+      const data = res.data;
 
-    if (data.message) {
-      setResultMessage("검색한 그룹에 대한 정보가 없습니다");
-      setResult([]);
-    } else {
-      setResultMessage("");
-      setResult(data);
+      if (data.message) {
+        setResultMessage("검색한 그룹에 대한 정보가 없습니다");
+        setResult([]);
+      } else {
+        setResultMessage("");
+        setResult(data);
+      }
+
+      setIsLoading(false);
+    } catch (err) {
+      if (err.response.status === 404) {
+        console.error(err.response.data.message);
+      }
     }
-
-    setIsLoading(false);
   };
 
   const applyGroupById = async (groupId) => {
-    const res = await fetchData(`/users/${user_id}/groups/${groupId}`, "POST");
+    try {
+      await fetchData(`/users/${user_id}/groups/${groupId}`, "POST");
 
-    if (res.status === 200) {
-      dispatch(setModalOpen({ type: "message", message: "신청 되었습니다." }));
-    } else {
-      const data = await res.json();
+      return dispatch(
+        setModalOpen({ type: "message", message: "신청 되었습니다." })
+      );
+    } catch (err) {
+      const { message } = err.response.data;
 
-      dispatch(
+      return dispatch(
         setModalOpen({
           type: "message",
-          message: data.message,
+          message,
         })
       );
     }
