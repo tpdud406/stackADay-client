@@ -53,7 +53,9 @@ function Signup() {
       const data = res.data;
       setMessage(data.message);
     } catch (err) {
-      console.error(err.response.data.message);
+      if (err.response.status === 400) {
+        return setMessage(err.response.data.message);
+      }
     }
   };
 
@@ -72,7 +74,9 @@ function Signup() {
       const data = res.data;
       setMessage(data.message);
     } catch (err) {
-      console.error(err.response.data.message);
+      if (err.response.status === 400) {
+        return setMessage(err.response.data.message);
+      }
     }
   };
 
