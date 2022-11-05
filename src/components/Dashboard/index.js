@@ -60,6 +60,8 @@ function Dashboard({ socket }) {
     socket?.on("getMyCards", (data) => {
       const cardInfo = getCardInfo(data);
 
+      console.log("🔥🔥 searchmyCards ::::", data);
+
       setCards(cardInfo);
     });
   }, [socket, currentDate]);
