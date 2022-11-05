@@ -28,19 +28,19 @@ function MyGroupListModal() {
   useEffect(() => {
     const getGroupList = async () => {
       setIsLoading(true);
-      const res = await fetchData(`/users/${user_id}/groups`, "GET");
 
-      if (res.status === 400) {
-        // const { message } = await res.json();
-        const { message } = res.data;
+      try {
+        const res = await fetchData(`/users/${user_id}/groups`, "GET");
+        const data = res.data;
+
+        setGroups(data);
         setIsLoading(false);
-        return console.error(message);
+      } catch (err) {
+        if (err.response.status === 400) {
+          setIsLoading(false);
+          console.error(err.response.data.message);
+        }
       }
-
-      // const data = await res.json();
-      const data = res.data;
-      setGroups(data);
-      setIsLoading(false);
     };
 
     getGroupList();

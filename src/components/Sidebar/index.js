@@ -42,43 +42,41 @@ function Sidebar({ role, username, socket, groupList }) {
   };
 
   const logout = async () => {
-    const res = await fetchData("/logout", "POST");
+    try {
+      await fetchData("/logout", "POST");
 
-    if (res.status === 400) {
-      // const { message } = await res.json();
-      const { message } = res.data;
-
-      return dispatch(
+      dispatch(
         setModalOpen({
           type: "message",
           messageType: "logout",
-          message,
+          message: "로그아웃 되셨습니다.",
         })
       );
+    } catch (err) {
+      if (err.response.status === 400) {
+        dispatch(
+          setModalOpen({
+            type: "message",
+            messageType: "logout",
+            message: err.response.data.message,
+          })
+        );
+      }
     }
-
-    dispatch(
-      setModalOpen({
-        type: "message",
-        messageType: "logout",
-        message: "로그아웃 되셨습니다.",
-      })
-    );
   };
 
   useEffect(() => {
     const getGroupNotice = async () => {
-      const res = await fetchData(`/users/${user_id}/groupNotice`, "GET");
+      try {
+        const res = await fetchData(`/users/${user_id}/groupNotice`, "GET");
+        const { myGroupList } = res.data;
 
-      if (res.status === 400) {
-        // const { message } = await res.json();
-        const { message } = res.data;
-        return console.error(message);
+        setNoticeList([...myGroupList]);
+      } catch (err) {
+        if (err.response.status === 400) {
+          console.error(err.response.data.message);
+        }
       }
-
-      // const { myGroupList } = await res.json();
-      const { myGroupList } = res.data;
-      setNoticeList([...myGroupList]);
     };
 
     !!user_id && getGroupNotice();

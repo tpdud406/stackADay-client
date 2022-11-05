@@ -21,16 +21,19 @@ function ManageGroupModal() {
     const getGroupInfo = async () => {
       setIsLoading(true);
 
-      const res = await fetchData(`/users/${user_id}/groups`, "GET");
+      try {
+        const res = await fetchData(`/users/${user_id}/groups`, "GET");
 
-      if (res.status === 200) {
-        // const data = await res.json();
-        const data = res.data;
+        if (res.status === 200) {
+          const data = res.data;
 
-        setGroupId(data.groupInfo._id);
-        setApplicants(data.applicants);
-        setMembers(data.members);
-        setIsLoading(false);
+          setGroupId(data.groupInfo._id);
+          setApplicants(data.applicants);
+          setMembers(data.members);
+          setIsLoading(false);
+        }
+      } catch (err) {
+        console.error(err.response.data.message);
       }
     };
 
@@ -38,54 +41,52 @@ function ManageGroupModal() {
   }, []);
 
   const acceptApplicant = async (applicant) => {
-    const res = await fetchData(
-      `/users/${user_id}/groups/${group_id}/${applicant._id}`,
-      "POST",
-      { status: "PARTICIPATING" }
-    );
-
-    if (res.status === 201) {
-      dispatch(
-        setModalOpen({
-          type: "message",
-          message: `${applicant.nickname} 수락하였습니다.`,
-        })
+    try {
+      const res = await fetchData(
+        `/users/${user_id}/groups/${group_id}/${applicant._id}`,
+        "POST",
+        { status: "PARTICIPATING" }
       );
-    } else {
-      // const data = await res.json();
-      const data = res.data;
 
+      if (res.status === 201) {
+        dispatch(
+          setModalOpen({
+            type: "message",
+            message: `${applicant.nickname} 수락하였습니다.`,
+          })
+        );
+      }
+    } catch (err) {
       dispatch(
         setModalOpen({
           type: "message",
-          message: data.message,
+          message: err.response.data.message,
         })
       );
     }
   };
 
   const rejectApplicant = async (applicant) => {
-    const res = await fetchData(
-      `/users/${user_id}/groups/${group_id}/${applicant._id}`,
-      "POST",
-      { status: "REJECTED" }
-    );
-
-    if (res.status === 201) {
-      dispatch(
-        setModalOpen({
-          type: "message",
-          message: `${applicant.nickname}을 거절하였습니다.`,
-        })
+    try {
+      const res = await fetchData(
+        `/users/${user_id}/groups/${group_id}/${applicant._id}`,
+        "POST",
+        { status: "REJECTED" }
       );
-    } else {
-      // const data = res.json();
-      const data = res.data;
 
+      if (res.status === 201) {
+        dispatch(
+          setModalOpen({
+            type: "message",
+            message: `${applicant.nickname}을 거절하였습니다.`,
+          })
+        );
+      }
+    } catch (err) {
       dispatch(
         setModalOpen({
           type: "message",
-          message: data.message,
+          message: err.response.data.message,
         })
       );
     }
