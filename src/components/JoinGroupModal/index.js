@@ -31,18 +31,13 @@ function JoinGroupModal() {
 
       const data = res.data;
 
-      if (data.message) {
-        setResultMessage("검색한 그룹에 대한 정보가 없습니다");
-        setResult([]);
-      } else {
-        setResultMessage("");
-        setResult(data);
-      }
+      setResultMessage("");
+      setResult(data);
 
       setIsLoading(false);
     } catch (err) {
       if (err.response.status === 404) {
-        console.error(err.response.data.message);
+        setResultMessage(err.response.data.message);
       }
     }
   };
