@@ -1,8 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
+import date from "date-and-time";
 
 const today = new Date();
 const initialState = {
-  currentDate: today.toString(),
+  currentDate: date.format(today, "YYYY-MM-DD"),
 };
 
 const calendarSlice = createSlice({
@@ -14,14 +15,14 @@ const calendarSlice = createSlice({
       const date = dateObj.getDate();
       const newDate = new Date(dateObj.setDate(date + 1));
 
-      state.currentDate = newDate.toString();
+      state.currentDate = date.format(newDate, "YYYY-MM-DD");
     },
     showPrevDay(state) {
       const dateObj = new Date(state.currentDate);
       const date = dateObj.getDate();
       const newDate = new Date(dateObj.setDate(date - 1));
 
-      state.currentDate = newDate.toString();
+      state.currentDate = date.format(newDate, "YYYY-MM-DD");
     },
   },
 });
