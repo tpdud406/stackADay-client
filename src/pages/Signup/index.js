@@ -48,14 +48,12 @@ function Signup() {
         },
       });
 
-      console.log("checkDuplicateEmail 함수의 res::::", res);
-
       res.status === 200 && setDuplicationCheckCount(duplicationCheckCount + 1);
 
       const data = res.data;
       setMessage(data.message);
     } catch (err) {
-      console.error(err);
+      console.error(err.response.data.message);
     }
   };
 
@@ -69,14 +67,12 @@ function Signup() {
         data: { groupName },
       });
 
-      console.log("checkDuplicateGroupName 함수의 res::::", res);
-
       res.status === 200 && setDuplicationCheckCount(duplicationCheckCount + 1);
 
       const data = res.data;
       setMessage(data.message);
     } catch (err) {
-      console.error(err);
+      console.error(err.response.data.message);
     }
   };
 
@@ -106,13 +102,6 @@ function Signup() {
         },
       });
 
-      console.log("signup 함수의 res::::", res);
-
-      if (res.status === 400) {
-        const data = res.data;
-        return setMessage(data.message);
-      }
-
       dispatch(
         setModalOpen({
           messageType: "signup",
@@ -120,7 +109,9 @@ function Signup() {
         })
       );
     } catch (err) {
-      console.error(err);
+      if (err.response.status === 400) {
+        return setMessage(err.response.data.message);
+      }
     }
   };
 

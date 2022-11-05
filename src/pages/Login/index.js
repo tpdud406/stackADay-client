@@ -46,7 +46,6 @@ function Login() {
       });
 
       const data = res.data;
-
       const token = data.token.split(" ")[1];
 
       if (token) {

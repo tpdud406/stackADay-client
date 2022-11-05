@@ -36,19 +36,18 @@ function Layout() {
         return setRole("GUEST");
       }
 
-      const res = await fetchData(`/users/${user_id}`, "GET");
+      try {
+        const res = await fetchData(`/users/${user_id}`, "GET");
+        const userInfo = res.data;
 
-      if (res.status === 403) {
-        // const { message } = await res.json();
-        const { message } = res.data;
-        return console.error(message);
+        setRole(userInfo.role);
+        setUsername(userInfo.nickname);
+        setGroupList(userInfo.groups?.map((group) => group.groupName));
+      } catch (err) {
+        if (err.response.status === 403) {
+          console.error(err.response.data.message);
+        }
       }
-
-      const userInfo = res.data;
-
-      setRole(userInfo.role);
-      setUsername(userInfo.nickname);
-      setGroupList(userInfo.groups?.map((group) => group.groupName));
     };
 
     getUserInfo();
