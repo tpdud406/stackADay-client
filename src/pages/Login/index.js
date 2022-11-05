@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -9,7 +10,7 @@ import { Wrapper, LoginForm } from "./style";
 
 function Login() {
   const navigate = useNavigate();
-  const [loginValues, setLoginValues] = useState("");
+  const [loginValues, setLoginValues] = useState({});
   const [message, setMessage] = useState("");
   const { email, password } = loginValues;
 
@@ -32,26 +33,20 @@ function Login() {
     }
 
     try {
-      const res = await fetch(
-        `${process.env.REACT_APP_SERVER_REQUEST_HOST}/login`,
-        {
-          method: "POST",
-          mode: "no-cors",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            email,
-            password,
-          }),
-        }
-      );
+      const res = await axios({
+        url: `${process.env.REACT_APP_SERVER_REQUEST_HOST}/login`,
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        data: {
+          email,
+          hello: 123,
+          password,
+        },
+      });
 
-      const data = await res.json();
-
-      if (res.status === 400) {
-        return setMessage(data.message);
-      }
+      const data = res.data;
 
       const token = data.token.split(" ")[1];
 
@@ -60,7 +55,9 @@ function Login() {
         navigate(`/users/${data.user._id}`);
       }
     } catch (err) {
-      console.error(err);
+      if (err.response.status === 400) {
+        return setMessage(err.response.data.message);
+      }
     }
   };
 
