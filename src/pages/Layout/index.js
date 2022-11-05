@@ -55,9 +55,7 @@ function Layout() {
 
   useEffect(() => {
     const socketIO = io.connect(process.env.REACT_APP_SERVER_REQUEST_HOST, {
-      extraHeaders: {
-        "Access-Control-Allow-Origin": "*",
-      },
+      withCredentials: true,
     });
     setSocket(socketIO);
 
