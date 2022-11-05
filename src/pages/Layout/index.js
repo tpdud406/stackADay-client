@@ -54,10 +54,7 @@ function Layout() {
   }, []);
 
   useEffect(() => {
-    const socketIO = io.connect(process.env.REACT_APP_SERVER_REQUEST_HOST, {
-      cors: { origin: "https://www.slh-dashboard-com" },
-      withCredentials: true,
-    });
+    const socketIO = io.connect(process.env.REACT_APP_SERVER_REQUEST_HOST);
     setSocket(socketIO);
 
     return () => {
