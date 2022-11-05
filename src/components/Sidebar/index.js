@@ -71,11 +71,13 @@ function Sidebar({ role, username, socket, groupList }) {
       const res = await fetchData(`/users/${user_id}/groupNotice`, "GET");
 
       if (res.status === 400) {
-        const { message } = await res.json();
+        // const { message } = await res.json();
+        const { message } = res.data;
         return console.error(message);
       }
 
-      const { myGroupList } = await res.json();
+      // const { myGroupList } = await res.json();
+      const { myGroupList } = res.data;
       setNoticeList([...myGroupList]);
     };
 

@@ -39,7 +39,8 @@ function Layout() {
       const res = await fetchData(`/users/${user_id}`, "GET");
 
       if (res.status === 403) {
-        const { message } = await res.json();
+        // const { message } = await res.json();
+        const { message } = res.data;
         return console.error(message);
       }
 

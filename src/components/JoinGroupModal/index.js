@@ -28,7 +28,8 @@ function JoinGroupModal() {
     setIsLoading(true);
     setResultMessage("불러 오는 중입니다...");
 
-    const data = await res.json();
+    // const data = await res.json();
+    const data = res.data;
 
     if (data.message) {
       setResultMessage("검색한 그룹에 대한 정보가 없습니다");

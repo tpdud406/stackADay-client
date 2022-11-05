@@ -24,7 +24,8 @@ function ManageGroupModal() {
       const res = await fetchData(`/users/${user_id}/groups`, "GET");
 
       if (res.status === 200) {
-        const data = await res.json();
+        // const data = await res.json();
+        const data = res.data;
 
         setGroupId(data.groupInfo._id);
         setApplicants(data.applicants);
@@ -51,7 +52,8 @@ function ManageGroupModal() {
         })
       );
     } else {
-      const data = await res.json();
+      // const data = await res.json();
+      const data = res.data;
 
       dispatch(
         setModalOpen({
@@ -77,7 +79,8 @@ function ManageGroupModal() {
         })
       );
     } else {
-      const data = res.json();
+      // const data = res.json();
+      const data = res.data;
 
       dispatch(
         setModalOpen({

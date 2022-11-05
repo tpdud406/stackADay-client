@@ -31,12 +31,14 @@ function MyGroupListModal() {
       const res = await fetchData(`/users/${user_id}/groups`, "GET");
 
       if (res.status === 400) {
-        const { message } = await res.json();
+        // const { message } = await res.json();
+        const { message } = res.data;
         setIsLoading(false);
         return console.error(message);
       }
 
-      const data = await res.json();
+      // const data = await res.json();
+      const data = res.data;
       setGroups(data);
       setIsLoading(false);
     };
