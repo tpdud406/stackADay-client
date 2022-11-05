@@ -43,6 +43,7 @@ function Signup() {
         `${process.env.REACT_APP_SERVER_REQUEST_HOST}/signup/check-email`,
         {
           method: "POST",
+          mode: "no-cors",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             email,
@@ -67,6 +68,7 @@ function Signup() {
         `${process.env.REACT_APP_SERVER_REQUEST_HOST}/signup/check-group-name`,
         {
           method: "POST",
+          mode: "no-cors",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             groupName,
@@ -100,6 +102,7 @@ function Signup() {
         `${process.env.REACT_APP_SERVER_REQUEST_HOST}/signup`,
         {
           method: "POST",
+          mode: "no-cors",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             nickname,

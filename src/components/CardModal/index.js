@@ -48,7 +48,10 @@ function CardModal({ socket }) {
     const getCardColorList = async () => {
       try {
         const res = await fetch(
-          `${process.env.REACT_APP_SERVER_REQUEST_HOST}/card-color-list`
+          `${process.env.REACT_APP_SERVER_REQUEST_HOST}/card-color-list`,
+          {
+            mode: "no-cors",
+          }
         );
         const { colorList } = await res.json();
 
@@ -56,7 +59,7 @@ function CardModal({ socket }) {
       } catch (err) {
         console.error(err);
       }
-    }
+    };
 
     getCardColorList();
   }, []);
