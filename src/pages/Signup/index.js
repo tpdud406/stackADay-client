@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
+import axios from "axios";
 import { ImArrowLeft2 } from "react-icons/im";
 import { AiFillInfoCircle } from "react-icons/ai";
 
@@ -39,17 +40,15 @@ function Signup() {
     e.preventDefault();
 
     try {
-      const res = await fetch(
-        `${process.env.REACT_APP_SERVER_REQUEST_HOST}/signup/check-email`,
-        {
-          method: "POST",
-          mode: "no-cors",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            email,
-          }),
-        }
-      );
+      const res = await axios({
+        method: "POST",
+        url: `${process.env.REACT_APP_SERVER_REQUEST_HOST}/signup/check-email`,
+        data: {
+          email,
+        },
+      });
+
+      console.log("checkDuplicateEmail 함수의 res::::", res);
 
       res.status === 200 && setDuplicationCheckCount(duplicationCheckCount + 1);
 
@@ -64,17 +63,13 @@ function Signup() {
     e.preventDefault();
 
     try {
-      const res = await fetch(
-        `${process.env.REACT_APP_SERVER_REQUEST_HOST}/signup/check-group-name`,
-        {
-          method: "POST",
-          mode: "no-cors",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            groupName,
-          }),
-        }
-      );
+      const res = await axios({
+        method: "POST",
+        url: `${process.env.REACT_APP_SERVER_REQUEST_HOST}/signup/check-group-name`,
+        data: { groupName },
+      });
+
+      console.log("checkDuplicateGroupName 함수의 res::::", res);
 
       res.status === 200 && setDuplicationCheckCount(duplicationCheckCount + 1);
 
@@ -98,22 +93,20 @@ function Signup() {
     }
 
     try {
-      const res = await fetch(
-        `${process.env.REACT_APP_SERVER_REQUEST_HOST}/signup`,
-        {
-          method: "POST",
-          mode: "no-cors",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            nickname,
-            email,
-            password,
-            passwordConfirm,
-            role: selectedRole,
-            groupName,
-          }),
-        }
-      );
+      const res = await axios({
+        method: "POST",
+        url: `${process.env.REACT_APP_SERVER_REQUEST_HOST}/signup`,
+        data: {
+          nickname,
+          email,
+          password,
+          passwordConfirm,
+          role: selectedRole,
+          groupName,
+        },
+      });
+
+      console.log("signup 함수의 res::::", res);
 
       if (res.status === 400) {
         const data = await res.json();

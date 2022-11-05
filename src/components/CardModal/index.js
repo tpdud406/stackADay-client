@@ -47,13 +47,14 @@ function CardModal({ socket }) {
   useEffect(() => {
     const getCardColorList = async () => {
       try {
-        const res = await fetch(
-          `${process.env.REACT_APP_SERVER_REQUEST_HOST}/card-color-list`,
-          {
-            mode: "no-cors",
-          }
-        );
-        const { colorList } = await res.json();
+        const res = await axios({
+          method: "GET",
+          url: `${process.env.REACT_APP_SERVER_REQUEST_HOST}/card-color-list`,
+        });
+
+        console.log("getCardColorList 함수의 res::::", res);
+
+        const { colorList } = res.data;
 
         setCardColors([...colorList]);
       } catch (err) {

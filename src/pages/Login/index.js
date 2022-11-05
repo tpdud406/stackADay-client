@@ -41,7 +41,6 @@ function Login() {
         },
         data: {
           email,
-          hello: 123,
           password,
         },
       });
