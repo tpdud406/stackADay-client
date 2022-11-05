@@ -39,7 +39,7 @@ function Sidebar({ role, username, socket, groupList }) {
         message: `카드 정보가 모두 삭제됩니다. \n 그래도 돌아가시겠습니까?`,
       })
     );
-  }
+  };
 
   const logout = async () => {
     const res = await fetchData("/logout", "POST");

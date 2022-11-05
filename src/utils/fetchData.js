@@ -7,12 +7,13 @@ export async function fetchData(endpointURL, apiMethod, bodyObj) {
       method: apiMethod,
       headers: {
         "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.jwt,
       },
       data: bodyObj,
-      withCredentials: true,
     });
 
     console.log("fetchData 함수의 res::::", res);
+    console.log("fetchData 함수의 res::::", res.data);
 
     return res;
   } catch (err) {
