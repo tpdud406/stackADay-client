@@ -12,15 +12,15 @@ const calendarSlice = createSlice({
   reducers: {
     showNextDay(state) {
       const dateObj = new Date(state.currentDate);
-      const date = dateObj.getDate();
-      const newDate = new Date(dateObj.setDate(date + 1));
+      const dateNum = dateObj.getDate();
+      const newDate = new Date(dateObj.setDate(dateNum + 1));
 
       state.currentDate = date.format(newDate, "YYYY-MM-DD");
     },
     showPrevDay(state) {
       const dateObj = new Date(state.currentDate);
-      const date = dateObj.getDate();
-      const newDate = new Date(dateObj.setDate(date - 1));
+      const dateNum = dateObj.getDate();
+      const newDate = new Date(dateObj.setDate(dateNum - 1));
 
       state.currentDate = date.format(newDate, "YYYY-MM-DD");
     },
