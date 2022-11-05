@@ -54,8 +54,6 @@ function CardModal({ socket }) {
           url: `${process.env.REACT_APP_SERVER_REQUEST_HOST}/card-color-list`,
         });
 
-        console.log("getCardColorList 함수의 res::::", res);
-
         const { colorList } = res.data;
 
         setCardColors([...colorList]);
