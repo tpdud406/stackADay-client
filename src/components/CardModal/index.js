@@ -52,6 +52,7 @@ function CardModal({ socket }) {
         const res = await axios({
           method: "GET",
           url: `${process.env.REACT_APP_SERVER_REQUEST_HOST}/card-color-list`,
+          withCredentials: true,
         });
 
         console.log("getCardColorList 함수의 res::::", res);

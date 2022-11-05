@@ -46,6 +46,7 @@ function Signup() {
         data: {
           email,
         },
+        withCredentials: true,
       });
 
       console.log("checkDuplicateEmail 함수의 res::::", res);

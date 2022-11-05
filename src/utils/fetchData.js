@@ -9,6 +9,7 @@ export async function fetchData(endpointURL, apiMethod, bodyObj) {
         "Content-Type": "application/json",
       },
       data: bodyObj,
+      withCredentials: true,
     });
 
     console.log("fetchData 함수의 res::::", res);
