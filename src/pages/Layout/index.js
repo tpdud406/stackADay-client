@@ -43,7 +43,7 @@ function Layout() {
         return console.error(message);
       }
 
-      const userInfo = await res.json();
+      const userInfo = res.data;
 
       setRole(userInfo.role);
       setUsername(userInfo.nickname);
@@ -54,7 +54,9 @@ function Layout() {
   }, []);
 
   useEffect(() => {
-    const socketIO = io.connect(process.env.REACT_APP_SERVER_REQUEST_HOST);
+    const socketIO = io.connect(process.env.REACT_APP_SERVER_REQUEST_HOST, {
+      withCredentials: true,
+    });
     setSocket(socketIO);
 
     return () => {

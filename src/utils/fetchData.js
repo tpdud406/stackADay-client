@@ -13,7 +13,7 @@ export async function fetchData(endpointURL, apiMethod, bodyObj) {
     });
 
     console.log("fetchData 함수의 res::::", res);
-    console.log("fetchData 함수의 res::::", res.data);
+    console.log("fetchData 함수의 res.data::::", res.data);
 
     return res;
   } catch (err) {

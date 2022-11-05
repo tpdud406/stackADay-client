@@ -45,7 +45,8 @@ function Sidebar({ role, username, socket, groupList }) {
     const res = await fetchData("/logout", "POST");
 
     if (res.status === 400) {
-      const { message } = await res.json();
+      // const { message } = await res.json();
+      const { message } = res.data;
 
       return dispatch(
         setModalOpen({
