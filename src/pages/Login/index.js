@@ -43,7 +43,6 @@ function Login() {
           email,
           password,
         },
-        withCredentials: true,
       });
 
       const data = res.data;

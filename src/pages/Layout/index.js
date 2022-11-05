@@ -54,9 +54,7 @@ function Layout() {
   }, []);
 
   useEffect(() => {
-    const socketIO = io.connect(process.env.REACT_APP_SERVER_REQUEST_HOST, {
-      withCredentials: true,
-    });
+    const socketIO = io.connect(process.env.REACT_APP_SERVER_REQUEST_HOST);
     setSocket(socketIO);
 
     return () => {

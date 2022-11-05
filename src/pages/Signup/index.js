@@ -46,14 +46,13 @@ function Signup() {
         data: {
           email,
         },
-        withCredentials: true,
       });
 
       console.log("checkDuplicateEmail 함수의 res::::", res);
 
       res.status === 200 && setDuplicationCheckCount(duplicationCheckCount + 1);
 
-      const data = await res.json();
+      const data = res.data;
       setMessage(data.message);
     } catch (err) {
       console.error(err);
@@ -74,7 +73,7 @@ function Signup() {
 
       res.status === 200 && setDuplicationCheckCount(duplicationCheckCount + 1);
 
-      const data = await res.json();
+      const data = res.data;
       setMessage(data.message);
     } catch (err) {
       console.error(err);
@@ -110,7 +109,7 @@ function Signup() {
       console.log("signup 함수의 res::::", res);
 
       if (res.status === 400) {
-        const data = await res.json();
+        const data = res.data;
         return setMessage(data.message);
       }
 
