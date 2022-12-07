@@ -93,7 +93,7 @@ function Signup() {
     }
 
     try {
-      const res = await axios({
+      await axios({
         method: "POST",
         url: `${process.env.REACT_APP_SERVER_REQUEST_HOST}/signup`,
         data: {

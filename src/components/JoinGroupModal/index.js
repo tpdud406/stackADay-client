@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 
 import { setModalOpen, setModalClose } from "../../store/slices/modalSlice";
-import { fetchData } from "../../utils/fetchData";
+import { axiosData } from "../../utils/axiosData";
 
 import { ModalWrapper, ModalHeader, ModalContents, ModalFooter } from "./style";
 
@@ -24,7 +24,7 @@ function JoinGroupModal() {
 
   const findGroupByName = async () => {
     try {
-      const res = await fetchData(`/groups?groupName=${groupName}`, "GET");
+      const res = await axiosData(`/groups?groupName=${groupName}`, "GET");
 
       setIsLoading(true);
       setResultMessage("불러 오는 중입니다...");
@@ -44,7 +44,7 @@ function JoinGroupModal() {
 
   const applyGroupById = async (groupId) => {
     try {
-      await fetchData(`/users/${user_id}/groups/${groupId}`, "POST");
+      await axiosData(`/users/${user_id}/groups/${groupId}`, "POST");
 
       return dispatch(
         setModalOpen({ type: "message", message: "신청 되었습니다." })

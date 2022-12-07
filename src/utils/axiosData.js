@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export async function fetchData(endpointURL, apiMethod, bodyObj) {
+export async function axiosData(endpointURL, apiMethod, bodyObj) {
   const res = await axios({
     url: `${process.env.REACT_APP_SERVER_REQUEST_HOST}${endpointURL}`,
     method: apiMethod,

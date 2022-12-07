@@ -17,7 +17,7 @@ import JoinGroupModal from "../../components/JoinGroupModal";
 import ManageGroupModal from "../../components/ManageGroupModal";
 import MyGroupListModal from "../../components/MyGroupListModal";
 
-import { fetchData } from "../../utils/fetchData";
+import { axiosData } from "../../utils/axiosData";
 
 import { Wrapper, Content } from "./style";
 
@@ -37,7 +37,7 @@ function Layout() {
       }
 
       try {
-        const res = await fetchData(`/users/${user_id}`, "GET");
+        const res = await axiosData(`/users/${user_id}`, "GET");
         const userInfo = res.data;
 
         setRole(userInfo.role);

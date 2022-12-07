@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 
 import { setModalOpen, setModalClose } from "../../store/slices/modalSlice";
 
-import { fetchData } from "../../utils/fetchData";
+import { axiosData } from "../../utils/axiosData";
 
 import { ModalWrapper, ModalHeader, ModalContents, ModalFooter } from "./style";
 
@@ -22,7 +22,7 @@ function ManageGroupModal() {
       setIsLoading(true);
 
       try {
-        const res = await fetchData(`/users/${user_id}/groups`, "GET");
+        const res = await axiosData(`/users/${user_id}/groups`, "GET");
 
         if (res.status === 200) {
           const data = res.data;
@@ -42,7 +42,7 @@ function ManageGroupModal() {
 
   const acceptApplicant = async (applicant) => {
     try {
-      const res = await fetchData(
+      const res = await axiosData(
         `/users/${user_id}/groups/${group_id}/${applicant._id}`,
         "POST",
         { status: "PARTICIPATING" }
@@ -68,7 +68,7 @@ function ManageGroupModal() {
 
   const rejectApplicant = async (applicant) => {
     try {
-      const res = await fetchData(
+      const res = await axiosData(
         `/users/${user_id}/groups/${group_id}/${applicant._id}`,
         "POST",
         { status: "REJECTED" }

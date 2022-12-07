@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 
 import ConfirmMessageModal from "../ConfirmMessageModal";
 
-import { fetchData } from "../../utils/fetchData";
+import { axiosData } from "../../utils/axiosData";
 import { setModalClose } from "../../store/slices/modalSlice";
 
 import { ModalWrapper, ModalHeader, ModalContents, ModalFooter } from "./style";
@@ -30,7 +30,7 @@ function MyGroupListModal() {
       setIsLoading(true);
 
       try {
-        const res = await fetchData(`/users/${user_id}/groups`, "GET");
+        const res = await axiosData(`/users/${user_id}/groups`, "GET");
         const data = res.data;
 
         setGroups(data);

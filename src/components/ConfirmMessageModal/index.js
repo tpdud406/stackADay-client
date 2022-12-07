@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 
 import { motion } from "framer-motion";
 
-import { fetchData } from "../../utils/fetchData";
+import { axiosData } from "../../utils/axiosData";
 import { setModalOpen, setModalClose } from "../../store/slices/modalSlice";
 
 import { modalTypeOne, modalTypeTwo, Wrapper } from "./style";
@@ -22,7 +22,7 @@ function ConfirmMessageModal({
   const handleSubmit = async () => {
     if (deleteGroupId) {
       try {
-        await fetchData(`/users/${user_id}/groups/${deleteGroupId}`, "DELETE");
+        await axiosData(`/users/${user_id}/groups/${deleteGroupId}`, "DELETE");
 
         return dispatch(setModalOpen({ type: "message", message: endMessage }));
       } catch (err) {

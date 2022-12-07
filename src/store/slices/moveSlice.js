@@ -32,7 +32,7 @@ const moveSlice = createSlice({
       };
     },
     dragMoved(state, action) {
-      const { item, point } = action.payload;
+      const { point } = action.payload;
 
       if (state.dragging) {
         state.dragging.nextPoint = point;

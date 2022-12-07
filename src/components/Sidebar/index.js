@@ -1,13 +1,11 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 import { FaBars } from "react-icons/fa";
 import { AnimatePresence, motion } from "framer-motion";
 
-import MessageModal from "../MessageModal";
-
-import { fetchData } from "../../utils/fetchData";
+import { axiosData } from "../../utils/axiosData";
 import { getNoticeInfo } from "../../services/getNoticeInfo";
 import { setModalOpen } from "../../store/slices/modalSlice";
 
@@ -29,7 +27,6 @@ function Sidebar({ role, username, socket, groupList }) {
   const optionList = options[role];
   const [isOpen, setIsOpen] = useState(false);
   const [noticeList, setNoticeList] = useState([]);
-  const [showMessageModal, setShowMessageModal] = useState(false);
 
   const navigatePage = (type) => {
     dispatch(
@@ -43,7 +40,7 @@ function Sidebar({ role, username, socket, groupList }) {
 
   const logout = async () => {
     try {
-      await fetchData("/logout", "POST");
+      await axiosData("/logout", "POST");
 
       dispatch(
         setModalOpen({
@@ -68,7 +65,7 @@ function Sidebar({ role, username, socket, groupList }) {
   useEffect(() => {
     const getGroupNotice = async () => {
       try {
-        const res = await fetchData(`/users/${user_id}/groupNotice`, "GET");
+        const res = await axiosData(`/users/${user_id}/groupNotice`, "GET");
         const { myGroupList } = res.data;
 
         setNoticeList([...myGroupList]);
@@ -189,7 +186,6 @@ function Sidebar({ role, username, socket, groupList }) {
           </div>
         </motion.div>
       </div>
-      {showMessageModal && <MessageModal />}
     </Wrapper>
   );
 }

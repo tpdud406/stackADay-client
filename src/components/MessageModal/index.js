@@ -39,7 +39,6 @@ function MessageModal({ socket }) {
     >
       <Wrapper>
         <div className="message">{message}</div>
-
         <div className="layout">
           {messageType === "logout" && (
             <input
@@ -49,7 +48,6 @@ function MessageModal({ socket }) {
               onClick={logout}
             />
           )}
-
           {messageType === "signup" && (
             <input
               type="submit"
@@ -58,7 +56,6 @@ function MessageModal({ socket }) {
               onClick={login}
             />
           )}
-
           {messageType !== "signup" && messageType !== "logout" && (
             <input
               type="submit"
@@ -72,7 +69,6 @@ function MessageModal({ socket }) {
               onClick={() => dispatch(setModalClose())}
             />
           )}
-
           {(messageType === "returnHomePage" ||
             messageType === "returnSignupPage") && (
             <input
